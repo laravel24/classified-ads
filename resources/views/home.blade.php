@@ -8,7 +8,7 @@
         @foreach($areas as $country)
           <div class="col-md-12">
             <h3>
-              <a href="">
+              <a href="{{ route('user.area.store', $country) }}">
                 {{ $country->name }}
               </a>
             </h3>
@@ -17,14 +17,14 @@
               @foreach($country->children as $state)
                 <div class="col-md-4">
                   <h4>
-                    <a href="">
+                    <a href="{{ route('user.area.store', $state) }}">
                       {{ $state->name }}
                     </a>
                   </h4>
                   <hr>
                   @foreach($state->children as $city)
                     <h5>
-                      <a href="">
+                      <a href="{{ route('user.area.store', $city) }}">
                         {{ $city->name }}
                       </a>
                     </h5>
