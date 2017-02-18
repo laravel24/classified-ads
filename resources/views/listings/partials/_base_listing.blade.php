@@ -11,5 +11,7 @@
       <li><time>{{ $listing->created_at->diffForHumans() }}</time></li>
       <li>{{ $listing->user->name }}</li>
     </ul>
+
+    {{ $links or '' }}
   </div> <!-- /.media-body -->
 </div> <!-- /.media -->
