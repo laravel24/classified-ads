@@ -50,4 +50,12 @@ class Listing extends Model {
     return $this->belongsTo(Area::class);
   }
 
+  public function favourites() {
+    return $this->morphToMany(User::class, 'favouriteable');
+  }
+
+  public function favoritedBy(User $user) {
+    return $this->favourites->contains($user);
+  }
+
 }
