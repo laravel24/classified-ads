@@ -31,6 +31,9 @@ Route::group(['prefix' => '/{area}'], function() {
     Route::group(['middleware' => 'auth'], function() {
       Route::get('/create', 'ListingsController@create')->name('listings.create');
       Route::post('/', 'ListingsController@store')->name('listings.store');
+
+      Route::get('/{listing}/edit', 'ListingsController@edit')->name('listings.edit');
+      Route::patch('/{listing}', 'ListingsController@update')->name('listings.update');
     });
   });
 

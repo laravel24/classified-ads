@@ -66,4 +66,8 @@ class Listing extends Model {
     return $this->viewedUsers()->sum('count');
   }
 
+  public function ownedByUser(User $user) {
+    return $this->user->id === $user->id;
+  }
+
 }
