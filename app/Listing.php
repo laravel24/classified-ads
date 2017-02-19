@@ -5,11 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Traits\Eloquent\OrderableTrait;
+use App\Traits\Eloquent\{OrderableTrait, PivotOrderableTrait};
+
 
 class Listing extends Model {
 
-  use SoftDeletes, OrderableTrait;
+  use SoftDeletes, OrderableTrait, PivotOrderableTrait;
 
   public function scopeFromCategory($query, Category $category) {
     return $query->where('category_id', $category->id);
