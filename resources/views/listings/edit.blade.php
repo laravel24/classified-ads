@@ -43,6 +43,10 @@
             <div class="form-group">
               <button type="submit" class="btn btn-default">Save</button>
             </div> <!-- /.form-group -->
+
+            @if($listing->live())
+              <input type="hidden" name="category_id" value="{{ $listing->category_id }}">
+            @endif
           </form>
         </div> <!-- /.panel-body -->
       </div> <!-- /.panel -->
