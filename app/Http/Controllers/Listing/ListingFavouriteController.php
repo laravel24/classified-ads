@@ -20,12 +20,12 @@ class ListingFavouriteController extends Controller {
 
   public function store(Request $request, Area $area, Listing $listing) {
     $request->user()->favouriteListings()->syncWithoutDetaching([$listing->id]);
-    return back();
+    return back()->withSuccess('Listing added to favourites');
   }
 
   public function destroy(Request $request, Area $area, Listing $listing) {
     $request->user()->favouriteListings()->detach($listing);
-    return back();
+    return back()->withSuccess('Listing removed from favourites');
   }
 
 }
