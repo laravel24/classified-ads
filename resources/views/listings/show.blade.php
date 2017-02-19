@@ -30,7 +30,7 @@
         {!! nl2br($listing->body) !!}
       </div> <!-- /.panel-body -->
       <div class="panel-footer">
-        Viewed x times
+        Viewed {{ $listing->views() }} times
       </div> <!-- /.panel-footer -->
     </div> <!-- /.panel -->
 

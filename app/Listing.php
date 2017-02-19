@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Traits\Eloquent\{OrderableTrait, PivotOrderableTrait};
 
-
 class Listing extends Model {
 
   use SoftDeletes, OrderableTrait, PivotOrderableTrait;
@@ -61,6 +60,10 @@ class Listing extends Model {
 
   public function viewedUsers() {
     return $this->belongsToMany(User::class, 'user_listing_views')->withTimestamps()->withPivot(['count']);
+  }
+
+  public function views() {
+    return $this->viewedUsers()->sum('count');
   }
 
 }
