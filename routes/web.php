@@ -27,7 +27,7 @@ Route::group(['prefix' => '/{area}'], function() {
     Route::delete('/{listing}/favourites', 'ListingFavouriteController@destroy')->name('listings.favourites.destroy');
 
     Route::get('/viewed', 'ListingViewedController@index')->name('listings.viewed.index');
-    Route::post('/contact', 'ListingContactController@store')->name('listings.contact.store');
+    Route::post('/{listing}/contact', 'ListingContactController@store')->name('listings.contact.store');
   });
 
   Route::get('/{listing}', 'Listing\ListingsController@show')->name('listings.show');
