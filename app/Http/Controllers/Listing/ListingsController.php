@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\{Area, Category, Listing};
 use App\Jobs\UserViewedListing;
+use App\Http\Requests\StoreListingFormRequest;
 
 class ListingsController extends Controller {
 
@@ -31,7 +32,7 @@ class ListingsController extends Controller {
     return view('listings.create');
   }
 
-  public function store(Request $request) {
+  public function store(StoreListingFormRequest $request) {
     $listing = new Listing;
     $listing->title = $request->title;
     $listing->body = $request->body;
@@ -40,7 +41,7 @@ class ListingsController extends Controller {
     $listing->user()->associate($request->user());
 
     $listing->save();
-    
+
   }
 
 }
