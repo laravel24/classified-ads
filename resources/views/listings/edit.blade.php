@@ -40,8 +40,11 @@
               @endif
             </div> <!-- /.form-group -->
 
-            <div class="form-group">
+            <div class="form-group clearfix">
               <button type="submit" class="btn btn-default">Save</button>
+              @if(!$listing->live)
+                <button type="submit" class="btn btn-primary pull-right" name="payment" value="true">Continue to payment</button>
+              @endif
             </div> <!-- /.form-group -->
 
             @if($listing->live())
