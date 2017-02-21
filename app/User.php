@@ -24,4 +24,8 @@ class User extends Authenticatable {
       ->withPivot(['count', 'id']);
   }
 
+  public function listings() {
+    return $this->hasMany(Listing::class);
+  }
+
 }

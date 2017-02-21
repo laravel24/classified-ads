@@ -38,7 +38,12 @@
 
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="{{ route('listings.create', [$area]) }}">New listing</a>
+                              <a href="{{ route('listings.unpublished.index', [$area]) }}">
+                                Unpublished listings ({{ $unpublishedListingsCount }})
+                              </a>
+                            </li>
+                            <li>
+                              <a href="{{ route('listings.create', [$area]) }}">New listing</a>
                             </li>
                         </ul>
                     </li>
