@@ -33,6 +33,7 @@ Route::group(['prefix' => '/{area}'], function() {
 
     Route::get('/{listing}/payment', 'ListingPaymentController@show')->name('listings.payment.show');
     Route::post('/{listing}/payment', 'ListingPaymentController@store')->name('listings.payment.store');
+    Route::patch('/{listing}/payment', 'ListingPaymentController@update')->name('listings.payment.update');
 
     Route::group(['middleware' => 'auth'], function() {
       Route::get('/create', 'ListingsController@create')->name('listings.create');
