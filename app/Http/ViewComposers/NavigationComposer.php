@@ -13,7 +13,7 @@ class NavigationComposer {
     }
 
     $user = Auth::user();
-    $listings = $user->listings();
+    $listings = $user->listings;
 
     return $view->with([
       'publishedListingsCount' => $listings->where('live', true)->count(),
