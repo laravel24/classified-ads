@@ -4,12 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 use App\Traits\Eloquent\{OrderableTrait, PivotOrderableTrait};
 
 class Listing extends Model {
 
-  use SoftDeletes, OrderableTrait, PivotOrderableTrait;
+  use SoftDeletes, OrderableTrait, PivotOrderableTrait, Searchable;
 
   public function scopeFromCategory($query, Category $category) {
     return $query->where('category_id', $category->id);
@@ -68,6 +69,17 @@ class Listing extends Model {
 
   public function ownedByUser(User $user) {
     return $this->user->id === $user->id;
+  }
+
+  public function toSearchableArray() {
+    $properties = $this->toArray();
+
+    $properties['created_at_human'] = $this->created_at->diffForHumans();
+    $properties['user'] = $this->user;
+    $properties['category'] = $this->category;
+    $properties['area'] = $this->area;
+
+    return $properties;
   }
 
 }
