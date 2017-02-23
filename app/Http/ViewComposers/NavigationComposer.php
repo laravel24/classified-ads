@@ -16,8 +16,8 @@ class NavigationComposer {
     $listings = $user->listings();
 
     return $view->with([
+      'publishedListingsCount' => $listings->where('live', true)->count(),
       'unpublishedListingsCount' => $listings->where('live', false)->count(),
-      'publishedListingsCount' => $listings->where('live', true)->count()
     ]);
   }
 
