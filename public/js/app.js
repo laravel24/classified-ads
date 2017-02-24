@@ -19731,8 +19731,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
+  props: ['categoryId', 'areaIds'],
+
   mounted: function mounted() {
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_autocomplete__["a" /* listingsautocomplete */])('#listing-search');
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_autocomplete__["a" /* listingsautocomplete */])('#listing-search', {
+      categoryId: this.categoryId,
+      areaIds: this.areaIds
+    });
   }
 };
 
@@ -19803,18 +19808,51 @@ window.axios.defaults.headers.common = {
 
 var index = __WEBPACK_IMPORTED_MODULE_1_algoliasearch___default()('S6WIG81VJ3', '3338aae1cc60bdda7c1dbd3f54eaa2fe');
 
-var listingsautocomplete = function listingsautocomplete(selector) {
+var listingsautocomplete = function listingsautocomplete(selector, _ref) {
+  var categoryId = _ref.categoryId,
+      areaIds = _ref.areaIds;
+
   var listings = index.initIndex('listings');
-  return __WEBPACK_IMPORTED_MODULE_0_autocomplete_js___default()(selector, {}, [{
-    source: __WEBPACK_IMPORTED_MODULE_0_autocomplete_js___default.a.sources.hits(listings, { hitsPerPage: 5 }),
+  var areaFilters = 'area.id = ' + areaIds.join(' OR area.id = ');
+  var filters = areaFilters;
+
+  if (typeof categoryId !== 'undefined') {
+    filters = filters + ' AND category.id != ' + categoryId;
+  }
+
+  var sources = [{
+    source: __WEBPACK_IMPORTED_MODULE_0_autocomplete_js___default.a.sources.hits(listings, { hitsPerPage: 5, filters: filters + ' AND live = 1' }),
     templates: {
+      header: function header() {
+        if (typeof categoryId !== 'undefined') {
+          return '<div class="aa-suggestions-category">Other categories</div>';
+        }
+        return '<div class="aa-suggestions-category">All categories</div>';
+      },
       suggestion: function suggestion(_suggestion) {
-        return '<span>' + _suggestion.title + '</span>';
+        return '\n          <span>\n            <a href="/' + _suggestion.area.slug + '/' + _suggestion.id + '">' + _suggestion.title + '</a>\n            in ' + _suggestion.category.name + '</span>\n            <span>' + _suggestion.created_at_human + ' &bull; ' + _suggestion.area.name + '</span>\n        ';
       }
     },
     displayKey: 'title',
     empty: '<div class="aa-empty">No listings found</div>'
-  }]);
+  }];
+
+  if (typeof categoryId !== 'undefined') {
+    sources.unshift({
+      source: __WEBPACK_IMPORTED_MODULE_0_autocomplete_js___default.a.sources.hits(listings, { hitsPerPage: 5, filters: '(' + areaFilters + ') AND category.id = ' + categoryId + ' AND live = 1' }),
+      templates: {
+        header: '<div class="aa-suggestions-category">This category</div>',
+        suggestion: function suggestion(_suggestion2) {
+          return '\n            <span><a href="/' + _suggestion2.area.slug + '/' + _suggestion2.id + '">' + _suggestion2.title + '</a></span>\n            <span>' + _suggestion2.created_at_human + ' &bull; ' + _suggestion2.area.name + '</span>\n          ';
+        },
+
+        displayKey: 'title',
+        empty: '<div class="aa-empty">No listings found</div>'
+      }
+    });
+  }
+
+  return __WEBPACK_IMPORTED_MODULE_0_autocomplete_js___default()(selector, {}, sources);
 };
 
 /***/ }),
