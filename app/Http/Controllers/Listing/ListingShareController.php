@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Listing;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Mail;
 
 use App\{Area, Listing};
 use App\Http\Requests\StoreListingShareFormRequest;
+use App\Mail\ListingShared;
 
 class ListingShareController extends Controller {
 
@@ -18,8 +20,14 @@ class ListingShareController extends Controller {
     return view('listings.share.index', compact('listing'));
   }
 
-  public function store(StoreListingShareFormRequest $request) {
+  public function store(StoreListingShareFormRequest $request, Area $area, Listing $listing) {
+    collect(array_filter($request->emails))->each(function($email) use ($listing, $request) {
+      Mail::to($email)->queue(
+        new ListingShared($listing, $request->user(), $request->message)
+      );
+    });
 
+    return redirect()->route('listings.show', [$area, $listing])->withSuccess('Listing shared!');
   }
 
 }
